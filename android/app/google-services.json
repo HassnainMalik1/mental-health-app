@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "566423133335",
+    "project_id": "mental-health-care-6aba8",
+    "storage_bucket": "mental-health-care-6aba8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566423133335:android:e3db33da285788dcb1ddd2",
+        "android_client_info": {
+          "package_name": "com.zmicrotech.mentalhealthapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "566423133335-g427mhn3opiek0hr0uudq7ui9d8lra7n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbZv6d91vA93qeFeGPqda70I2dEapboT8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "566423133335-g427mhn3opiek0hr0uudq7ui9d8lra7n.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "566423133335-g6599tng2nr2seqj7icu3818e0svls0d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.zmicrotech.mentalHealthCare"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
