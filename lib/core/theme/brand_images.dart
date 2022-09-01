@@ -8,6 +8,5 @@ class BrandImages {
   static const String kGoogleIconName = 'google';
   static const String kFacebookIconName = 'facebook';
   static const String kAppleIconName = 'apple';
-  
-
+  static const String kSearchIconName = 'search-icon.png';
 }

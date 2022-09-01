@@ -88,8 +88,8 @@ class OnboardingTemplete extends StatelessWidget {
                   ]),
             ),
           ),
-          const SizedBox(
-            height: 60.0,
+         SizedBox(
+            height: MediaQuery.of(context).size.height * 0.02,
           ),
           GestureDetector(
             onTap: onPressed,

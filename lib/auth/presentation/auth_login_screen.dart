@@ -8,8 +8,10 @@ import 'package:mental_health_care/core/theme/custom_text.dart';
 import 'package:mental_health_care/routes/app_routes.dart';
 import 'package:mental_health_care/ui/custom_button.dart';
 import 'package:mental_health_care/ui/custom_input_field.dart';
+import 'package:mental_health_care/ui/custom_models.dart';
 import 'package:mental_health_care/ui/custom_text.dart';
 import 'package:mental_health_care/ui/spacing.dart';
+import 'package:mental_health_care/utils/extensions_utils.dart';
 import 'package:mental_health_care/utils/focus_helper.dart';
 
 class AuthLoginScree extends StatefulWidget {
@@ -25,7 +27,7 @@ class _AuthLoginScreenState extends State<AuthLoginScree> {
 
   final AuthController authController = Get.put(AuthController());
 
-  final formKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -57,17 +59,22 @@ class _AuthLoginScreenState extends State<AuthLoginScree> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               customSizeBox(context: context, size: 0.15),
+              
               mainHeading(text: CustomText.mentalSignInText, context: context),
+               Obx(() => authController.disableSignInButton.value
+                  ? showSpinner()
+                  : Container()),
               customSizeBox(context: context, size: 0.02),
               Form(
-                  key: formKey,
+                  key: loginFormKey,
                   child: Column(
                     children: [
                       CustomInputField(
+                        controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         obscureText: false,
                         validator: (String? value) {
-                          if (value!.isEmpty) {
+                          if (value!.isValidEmail == false) {
                             return CustomErrorText.invalidEmail;
                           } else {
                             return null;
@@ -75,6 +82,7 @@ class _AuthLoginScreenState extends State<AuthLoginScree> {
                         },
                       ),
                       CustomInputPassword(
+                        controller: passwordController,
                         keyboardType: TextInputType.text,
                         obscuringCharacter: "*",
                         validator: (String? value) {
@@ -100,11 +108,20 @@ class _AuthLoginScreenState extends State<AuthLoginScree> {
                         ],
                       ),
                       customSizeBox(context: context, size: 0.12),
-                      CustomButton(
-                          onPressed: () {
-                            
-                          },
-                          buttonText: CustomText.mentalSignInText),
+                      Obx(
+                        () => AbsorbPointer(
+                          absorbing: authController.disableSignInButton.value,
+                          child: CustomButton(
+                              onPressed: () {
+                                if (loginFormKey.currentState!.validate()) {
+                                  authController.signInWithEmailAndPassword(
+                                      email: emailController.text,
+                                      password: passwordController.text);
+                                }
+                              },
+                              buttonText: CustomText.mentalSignInText),
+                        ),
+                      ),
                       customSizeBox(context: context, size: 0.13),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,12 +138,16 @@ class _AuthLoginScreenState extends State<AuthLoginScree> {
                                   imgName: BrandImages.kGoogleIconName,
                                   radius: 19.0,
                                   backgroundRadius: 20,
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    authController.googleSignIn();
+                                  }),
                               CustomCircleBtn(
                                   imgName: BrandImages.kFacebookIconName,
                                   radius: 19.0,
                                   backgroundRadius: 20,
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    authController.facebookSignIn();
+                                  }),
                               CustomCircleBtn(
                                   imgName: BrandImages.kAppleIconName,
                                   radius: 19.0,
