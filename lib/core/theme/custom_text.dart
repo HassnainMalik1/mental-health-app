@@ -29,9 +29,11 @@ class CustomText {
   static const String mentalPasswordResetReturnText = "Retrun";
   static const String mentalPasswordResetBottomText = "I remeber the passord! ";
   static const String mentalModelCheckEmailText = 'Check your email!';
-  static const String mentalModelCheckEmailSubText = 'An email with password recovery instruction has been sent to the specified email address';
+  static const String mentalModelCheckEmailSubText =
+      'An email with password recovery instruction has been sent to the specified email address';
   static const String mentalModelCheckEmailBtnText = 'Go To mail';
   static const String mentalModelCheckCloseBtnText = 'Close';
+  static const String mentalHomeTitle = "Psychologist";
 }
 
 class CustomErrorText {

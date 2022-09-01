@@ -87,7 +87,7 @@ class _AuthSignupScreenState extends State<AuthSignupScreen> {
                         controller: passwordController,
                         obscuringCharacter: "*",
                         validator: (String? value) {
-                          if (value!.isValidPassword == false) {
+                          if (value!.isEmpty) {
                             return CustomErrorText.invalidPassword;
                           }
                           return null;
@@ -131,12 +131,16 @@ class _AuthSignupScreenState extends State<AuthSignupScreen> {
                                   imgName: BrandImages.kFacebookIconName,
                                   radius: 19.0,
                                   backgroundRadius: 20,
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    authController.facebookSignIn();
+                                  }),
                               CustomCircleBtn(
                                   imgName: BrandImages.kAppleIconName,
                                   radius: 19.0,
                                   backgroundRadius: 20,
-                                  onPressed: () {}),
+                                  onPressed: () {
+                                    authController.signInWithApple();
+                                  }),
                             ],
                           ),
                         ],
