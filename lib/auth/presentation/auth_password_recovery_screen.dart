@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:mental_health_care/auth/application/auth_controller.dart';
 import 'package:mental_health_care/core/theme/app_colors.dart';
-import 'package:mental_health_care/core/theme/brand_images.dart';
+
 import 'package:mental_health_care/core/theme/custom_text.dart';
 import 'package:mental_health_care/ui/custom_button.dart';
 import 'package:mental_health_care/ui/custom_input_field.dart';
 import 'package:mental_health_care/ui/custom_models.dart';
+
 import 'package:mental_health_care/ui/custom_text.dart';
 import 'package:mental_health_care/ui/spacing.dart';
+import 'package:mental_health_care/utils/extensions_utils.dart';
 import 'package:mental_health_care/utils/focus_helper.dart';
 
 class AuthPasswordRecoveryScreen extends StatefulWidget {
@@ -20,6 +23,24 @@ class AuthPasswordRecoveryScreen extends StatefulWidget {
 
 class _AuthPasswordRecoveryScreenState
     extends State<AuthPasswordRecoveryScreen> {
+  late TextEditingController emailController;
+  final formKey = GlobalKey<FormState>();
+
+  final AuthController authController = Get.put(AuthController());
+
+  @override
+  void initState() {
+    super.initState();
+    emailController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -44,6 +65,9 @@ class _AuthPasswordRecoveryScreenState
                 ),
               ),
               customSizeBox(context: context, size: 0.15),
+              Obx(() => authController.disableResetPasswordButton.value
+                  ? showSpinner()
+                  : Container()),
               mainHeading(
                   text: CustomText.mentalPasswordRecoveryText,
                   context: context),
@@ -53,50 +77,62 @@ class _AuthPasswordRecoveryScreenState
                   context: context),
               customSizeBox(context: context, size: 0.05),
               Form(
+                  key: formKey,
                   child: Column(
-                children: [
-                  CustomInputField(
-                    keyboardType: TextInputType.emailAddress,
-                    obscureText: false,
-                    validator: (String? value) {
-                      if (value!.isEmpty) {
-                        return CustomErrorText.invalidEmail;
-                      } else {
-                        return null;
-                      }
-                    },
-                  ),
-                  customSizeBox(context: context, size: 0.12),
-                  CustomButton(
-                      onPressed: () {
-                        customBottomSheet(
-                          content: Text('Hello model'),
-                            context: context,
-                            title: 'Here is model',
-                            onPressed: () {});
-                      },
-                      buttonText: CustomText.mentalPasswordSendBtnText),
-                  customSizeBox(context: context, size: 0.25),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        CustomText.mentalPasswordResetBottomText,
-                        style: Theme.of(context).textTheme.button,
+                      CustomInputField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        obscureText: false,
+                        validator: (String? value) {
+                          if (value!.isValidEmail == false) {
+                            return CustomErrorText.invalidEmail;
+                          } else {
+                            return null;
+                          }
+                        },
                       ),
-                      GestureDetector(
-                        onTap: () => Get.back(),
-                        child: Text(
-                          CustomText.mentalPasswordResetReturnText,
-                          style: Theme.of(context).textTheme.button!.copyWith(
-                              color: AppColors.mentalBrandColor,
-                              fontWeight: FontWeight.w600),
+                      customSizeBox(context: context, size: 0.12),
+                      Obx(
+                        () => AbsorbPointer(
+                          absorbing:
+                              authController.disableResetPasswordButton.value,
+                          child: CustomButton(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  authController.userForgetPassword(
+                                      email: emailController.text,
+                                      context: context);
+                                  emailController.clear();
+                                }
+                              },
+                              buttonText: CustomText.mentalPasswordSendBtnText),
                         ),
+                      ),
+                      customSizeBox(context: context, size: 0.25),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            CustomText.mentalPasswordResetBottomText,
+                            style: Theme.of(context).textTheme.button,
+                          ),
+                          GestureDetector(
+                            onTap: () => Get.back(),
+                            child: Text(
+                              CustomText.mentalPasswordResetReturnText,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .button!
+                                  .copyWith(
+                                      color: AppColors.mentalBrandColor,
+                                      fontWeight: FontWeight.w600),
+                            ),
+                          )
+                        ],
                       )
                     ],
-                  )
-                ],
-              ))
+                  ))
             ],
           ),
         ))),

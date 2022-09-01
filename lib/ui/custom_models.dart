@@ -44,7 +44,7 @@ void customBottomSheet(
                   context: context),
               customSizeBox(context: contextModel, size: 0.05),
               CustomButton(
-                  onPressed: () {},
+                  onPressed:onPressed,
                   buttonText: CustomText.mentalModelCheckEmailBtnText),
               customSizeBox(context: contextModel, size: 0.01),
               CustomButton(
@@ -62,7 +62,7 @@ void customBottomSheet(
 Widget showSpinner() {
   return Container(
     child: Center(
-        child: SpinKitDualRing(
+        child: SpinKitDualRing (
       color: AppColors.mentalBrandColor,
       size: 50.0,
     )),
